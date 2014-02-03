@@ -1,0 +1,14 @@
+1.) Uploading new ad image.
+2.) Formatting album detail display.
+	|-> Check "Death is Silent".
+3.) Secure admin controls.
+	|-> currently, "http://waldo2.dawsoncollege.qc.ca:8080/g2w13/welcome_admin" gets you root.
+4.) When admin logged in, have "profile" link lead to admin controls.
+5.) Check/fix footers for all pages.
+6.) Check/fix commenting.
+7.) STOP HOTLINKING FKN JQUERY LIB!
+8.) Format admin sales reports.
+9.) On "Manage Sales", track + album pricing divs flash before page loads. 
+	|-> Check how they're created. If !div.visible(false) then do it, else :
+	|-> Render them on first click, then toggle visibility for each modification?
+10.) Find crashes that happened during presentation.
