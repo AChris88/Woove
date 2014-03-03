@@ -19,10 +19,10 @@ public class DATestSuite {
 			System.out.println("\tDatabase Tables Created");
 		//6
 		System.out.println("1. Commencing data insertion");
-		
+		/*
 			data.insertData();
 			System.out.println("\tDatabase Populated");
-			/*
+			
 			test.testInsertAlbum();
 			System.out.println("\tinsertAlbum Completed");
 			

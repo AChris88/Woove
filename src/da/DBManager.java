@@ -106,7 +106,8 @@ public class DBManager {
 	 * Opens a connection to the database, calls connect()
 	 */
 	public void openConnection() {
-		connect();
+//		connect();
+		unitTestConnect();
 	}
 
 	/**
@@ -120,12 +121,12 @@ public class DBManager {
 		try {
 			openConnection();
 			meta = connection.getMetaData();
-			tables = meta.getTables(null, null, "clients_table", null);
-			// Checks if table 'clients_table' exists
+			tables = meta.getTables(null, null, "clients", null);
+			// Checks if table 'clients' exists
 			if (!tables.next()) {
 				statement = connection.createStatement();
 				statement
-						.execute("create table clients_table("
+						.execute("create table clients("
 								+ "client_id			int unsigned not null primary key auto_increment,"
 								+ "title 				varchar(4) not null,"
 								+ "first_name 			varchar(25) not null,"
@@ -146,12 +147,12 @@ public class DBManager {
 				statement.close();
 			}
 
-			tables = meta.getTables(null, null, "invoices_table", null);
-			// Checks if table 'invoices_table' exists
+			tables = meta.getTables(null, null, "invoices", null);
+			// Checks if table 'invoices' exists
 			if (!tables.next()) {
 				statement = connection.createStatement();
 				statement
-						.execute("create table invoices_table("
+						.execute("create table invoices("
 								+ "sale_number			int unsigned not null primary key auto_increment,"
 								+ "date_of_sale		date not null,"
 								+ "client_id		int unsigned not null,"
@@ -161,17 +162,17 @@ public class DBManager {
 								+ "hst					float(5,2) not null,"
 								+ "total_gross_value	float(5,2) not null,"
 								+ "removal_status		tinyint not null,"
-								+ "foreign key (client_id) references clients_table(client_id)"
+								+ "foreign key (client_id) references clients(client_id)"
 								+ ")");
 				statement.close();
 			}
 
-			tables = meta.getTables(null, null, "albums_table", null);
-			// Checks if table 'albums_table' exists
+			tables = meta.getTables(null, null, "albums", null);
+			// Checks if table 'albums' exists
 			if (!tables.next()) {
 				statement = connection.createStatement();
 				statement
-						.execute("create table albums_table("
+						.execute("create table albums("
 								+ "album_number		int unsigned not null primary key auto_increment,"
 								+ "title				varchar(128) not null,"
 								+ "release_date		date not null,"
@@ -188,12 +189,12 @@ public class DBManager {
 				statement.close();
 			}
 
-			tables = meta.getTables(null, null, "tracks_table", null);
-			// Checks if table 'tracks_table' exists
+			tables = meta.getTables(null, null, "tracks", null);
+			// Checks if table 'tracks' exists
 			if (!tables.next()) {
 				statement = connection.createStatement();
 				statement
-						.execute("create table tracks_table("
+						.execute("create table tracks("
 								+ "inventory_number	int unsigned not null primary key auto_increment,"
 								+ "album_number		int unsigned,"
 								+ "title				varchar(128) not null,"
@@ -209,17 +210,17 @@ public class DBManager {
 								+ "date_entered		date not null,"
 								+ "selling_state		int unsigned not null,"
 								+ "removal_status		tinyint not null,"
-								+ "foreign key (album_number) references albums_table (album_number)"
+								+ "foreign key (album_number) references albums (album_number)"
 								+ ")");
 				statement.close();
 			}
 
-			tables = meta.getTables(null, null, "reviews_table", null);
-			// Checks if table 'reviews_table' exists
+			tables = meta.getTables(null, null, "reviews", null);
+			// Checks if table 'reviews' exists
 			if (!tables.next()) {
 				statement = connection.createStatement();
 				statement
-						.execute("create table reviews_table("
+						.execute("create table reviews("
 								+ "_id					int unsigned not null primary key auto_increment,"
 								+ "inventory_number	int unsigned,"
 								+ "date_of_review		date not null,"
@@ -228,17 +229,17 @@ public class DBManager {
 								+ "rating				tinyint(1) unsigned not null,"
 								+ "review				varchar(2000) not null,"
 								+ "approval_status	tinyint(1) not null,"
-								+ "foreign key (inventory_number) references tracks_table(inventory_number)"
+								+ "foreign key (inventory_number) references tracks(inventory_number)"
 								+ ")");
 				statement.close();
 			}
 
-			tables = meta.getTables(null, null, "invoices_details_table", null);
-			// Checks if table 'invoices_details_table' exists
+			tables = meta.getTables(null, null, "invoices_details", null);
+			// Checks if table 'invoices_details' exists
 			if (!tables.next()) {
 				statement = connection.createStatement();
 				statement
-						.execute("create table invoices_details_table("
+						.execute("create table invoices_details("
 								+ "_id					int unsigned not null primary key auto_increment,"
 								+ "sale_number			int unsigned not null,"
 								+ "inventory_number		int unsigned default null,"
@@ -247,19 +248,19 @@ public class DBManager {
 								+ "price_of_album		float(5,2) not null,"
 								+ "price_at_sale		float(5,2) unsigned not null,"
 								+ "removal_status		tinyint not null,"
-								+ "foreign key (sale_number) references invoices_table(sale_number),"
-								+ "foreign key (inventory_number) references tracks_table(inventory_number),"
-								+ "foreign key (album_number) references albums_table(album_number)"
+								+ "foreign key (sale_number) references invoices(sale_number),"
+								+ "foreign key (inventory_number) references tracks(inventory_number),"
+								+ "foreign key (album_number) references albums(album_number)"
 								+ ")");
 				statement.close();
 			}
 
-			tables = meta.getTables(null, null, "ads_table", null);
-			// Checks if table 'ads_table' exists
+			tables = meta.getTables(null, null, "ads", null);
+			// Checks if table 'ads' exists
 			if (!tables.next()) {
 				statement = connection.createStatement();
 				statement
-						.execute("create table ads_table("
+						.execute("create table ads("
 								+ "id		int unsigned not null primary key auto_increment,"
 								+ "link	varchar(256) not null,"
 								+ "imgPath	varchar(256) not null,"
@@ -267,24 +268,24 @@ public class DBManager {
 				statement.close();
 			}
 
-			tables = meta.getTables(null, null, "rss_table", null);
-			// Checks if table 'rss_table' exists
+			tables = meta.getTables(null, null, "rss", null);
+			// Checks if table 'rss' exists
 			if (!tables.next()) {
 				statement = connection.createStatement();
 				statement
-						.execute("create table rss_table("
+						.execute("create table rss("
 								+ "id		int unsigned not null primary key auto_increment,"
 								+ "link	varchar(256) not null,"
 								+ "active	tinyint not null" + ");");
 				statement.close();
 			}
 
-			tables = meta.getTables(null, null, "survey_table", null);
-			// Checks if table 'survey_table' exists
+			tables = meta.getTables(null, null, "survey", null);
+			// Checks if table 'survey' exists
 			if (!tables.next()) {
 				statement = connection.createStatement();
 				statement
-						.execute("create table survey_table("
+						.execute("create table survey("
 								+ "id				int unsigned not null primary key auto_increment,"
 								+ "question		varchar(256) not null,"
 								+ "answer_1		varchar(256) not null,"
@@ -324,7 +325,7 @@ public class DBManager {
 	public ArrayList<String> getGenres() {
 		ArrayList<String> genres = new ArrayList<String>();
 		Statement statement = null;
-		String query = "Select distinct category from tracks_table";
+		String query = "Select distinct category from tracks";
 
 		try {
 			openConnection();
@@ -362,7 +363,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection
-					.prepareStatement("INSERT INTO tracks_table "
+					.prepareStatement("INSERT INTO tracks "
 							+ "(inventory_number, album_number, title, artist, writer, track_length, "
 							+ "track_number, category, cover_img_name, cost_price, list_price, sale_price, "
 							+ "date_entered, selling_state, removal_status) "
@@ -420,7 +421,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("Select * from tracks_table");
+			resultSet = statement.executeQuery("Select * from tracks");
 			while (resultSet.next()) {
 				tracks.add(new TrackBean(resultSet.getInt(1), resultSet
 						.getInt(2), resultSet.getString(3), resultSet
@@ -457,7 +458,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from tracks_table where removal_status = 0 AND sale_price > 0.00");
+					.executeQuery("Select * from tracks where removal_status = 0 AND sale_price > 0.00");
 			while (resultSet.next()) {
 				tracks.add(new TrackBean(resultSet.getInt(1), resultSet
 						.getInt(2), resultSet.getString(3), resultSet
@@ -494,7 +495,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from albums_table where removal_status = 0 AND sale_price > 0.00");
+					.executeQuery("Select * from albums where removal_status = 0 AND sale_price > 0.00");
 			while (resultSet.next()) {
 				albums.add(new AlbumBean(resultSet.getInt(1), resultSet
 						.getString(2), resultSet.getString(3), resultSet
@@ -532,7 +533,7 @@ public class DBManager {
 			try {
 				openConnection();
 				statement = connection
-						.prepareStatement("Select avg(rating) from tracks_table tt, reviews_table rt where tt.inventory_number = ? AND tt.inventory_number = rt.inventory_number AND approval_status =1");
+						.prepareStatement("Select avg(rating) from tracks tt, reviews rt where tt.inventory_number = ? AND tt.inventory_number = rt.inventory_number AND approval_status =1");
 				// inserting values into PreparedStatement
 				statement.setInt(1, id);
 
@@ -571,7 +572,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from tracks_table Where removal_status = 0 ORDER BY date_entered DESC LIMIT 3");
+					.executeQuery("Select * from tracks Where removal_status = 0 ORDER BY date_entered DESC LIMIT 3");
 			while (resultSet.next()) {
 				tracks.add(new TrackBean(resultSet.getInt(1), resultSet
 						.getInt(2), resultSet.getString(3), resultSet
@@ -611,7 +612,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from tracks_table Where removal_status = 0");
+					.executeQuery("Select * from tracks Where removal_status = 0");
 			while (resultSet.next()) {
 				tracks.add(new TrackBean(resultSet.getInt(1), resultSet
 						.getInt(2), resultSet.getString(3), resultSet
@@ -650,7 +651,7 @@ public class DBManager {
 		if (name != null && !name.equals("")) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from tracks_table where title like ?");
+				statement = connection.prepareStatement("Select * from tracks where title like ?");
 				statement.setString(1, "%" + name + "%");
 				
 				//execute statement obtaining the number of inserted rows
@@ -695,7 +696,7 @@ public class DBManager {
 		if (name != null && !name.equals("")) {
 			try {
 				openConnection();
-				statement = connection.prepareStatement("Select * from tracks_table where title like ? AND removal_status = 0");
+				statement = connection.prepareStatement("Select * from tracks where title like ? AND removal_status = 0");
 				statement.setString(1, "%" + name +"%");
 				
 				//execute statement obtaining the number of inserted rows
@@ -740,7 +741,7 @@ public class DBManager {
 		if (id >= 0) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from tracks_table where inventory_number = ?");
+				statement = connection.prepareStatement("Select * from tracks where inventory_number = ?");
 				//inserting values into PreparedStatement
 				statement.setInt(1, id);
 				
@@ -786,7 +787,7 @@ public class DBManager {
 		if (album >= 0) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from tracks_table where album_number = ?");
+				statement = connection.prepareStatement("Select * from tracks where album_number = ?");
 				//inserting values into PreparedStatement
 				statement.setInt(1, album);
 				
@@ -832,7 +833,7 @@ public class DBManager {
 		if (id >= 0) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from tracks_table where inventory_number = ? AND removal_status = 0");
+				statement = connection.prepareStatement("Select * from tracks where inventory_number = ? AND removal_status = 0");
 				//inserting values into PreparedStatement
 				statement.setInt(1, id);
 				
@@ -878,7 +879,7 @@ public class DBManager {
 		if (genre != null && !genre.equals("")) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from albums_table where genre like ?");
+				statement = connection.prepareStatement("Select * from albums where genre like ?");
 				statement.setString(1, "%" + genre + "%");
 				
 				//execute statement obtaining the number of inserted rows
@@ -922,7 +923,7 @@ public class DBManager {
 		if (category != null && !category.equals("")) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from tracks_table where category like ?");
+				statement = connection.prepareStatement("Select * from tracks where category like ?");
 				statement.setString(1, "%" + category + "%");
 				
 				//execute statement obtaining the number of inserted rows
@@ -968,7 +969,7 @@ public class DBManager {
 		if (category != null && !category.equals("")) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from tracks_table where category like ? AND removal_status = 0");
+				statement = connection.prepareStatement("Select * from tracks where category like ? AND removal_status = 0");
 				statement.setString(1, "%" + category + "%");
 				
 				//execute statement obtaining the number of inserted rows
@@ -1013,7 +1014,7 @@ public class DBManager {
 		if (artist != null && !artist.equals("")) {
 			try {
 				openConnection();
-				statement = connection.prepareStatement("Select * from tracks_table where artist like ?");
+				statement = connection.prepareStatement("Select * from tracks where artist like ?");
 				statement.setString(1, "%" + artist +"%");
 				
 				//execute statement obtaining the number of inserted rows
@@ -1058,7 +1059,7 @@ public class DBManager {
 		if (artist != null && !artist.equals("")) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from tracks_table where artist like ? AND removal_status = 0");
+				statement = connection.prepareStatement("Select * from tracks where artist like ? AND removal_status = 0");
 				statement.setString(1, "%" + artist +"%");
 				
 				//execute statement obtaining the number of inserted rows
@@ -1104,9 +1105,9 @@ public class DBManager {
 				&& !end.equals("")) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select inventory_number, title, artist, list_price from tracks_table where inventory_number NOT IN (Select invoices_details_table.inventory_number "
-						+ "from invoices_details_table, invoices_table Where invoices_details_table.inventory_number is not null AND invoices_details_table.sale_number = "
-						+ "invoices_table.sale_number AND invoices_details_table.inventory_number is not NULL AND invoices_table.date_of_sale BETWEEN  date(?) AND date(?))");
+				statement = connection.prepareStatement("Select inventory_number, title, artist, list_price from tracks where inventory_number NOT IN (Select invoices_details.inventory_number "
+						+ "from invoices_details, invoices Where invoices_details.inventory_number is not null AND invoices_details.sale_number = "
+						+ "invoices.sale_number AND invoices_details.inventory_number is not NULL AND invoices.date_of_sale BETWEEN  date(?) AND date(?))");
 				statement.setString(1, start);
 				statement.setString(2, end);
 				
@@ -1148,9 +1149,9 @@ public class DBManager {
 				&& !end.equals("")) {
 			try {			
 				openConnection();
-				statement = connection.prepareStatement("Select * from tracks_table where inventory_number NOT IN (Select invoices_details_table.inventory_number "
-						+ "from invoices_details_table, invoices_table Where invoices_details_table.inventory_number is not null AND invoices_details_table.sale_number = "
-						+ "invoices_table.sale_number AND invoices_table.date_of_sale BETWEEN  date(?) AND date(?)) AND tracks_table.removal_status = 0");
+				statement = connection.prepareStatement("Select * from tracks where inventory_number NOT IN (Select invoices_details.inventory_number "
+						+ "from invoices_details, invoices Where invoices_details.inventory_number is not null AND invoices_details.sale_number = "
+						+ "invoices.sale_number AND invoices.date_of_sale BETWEEN  date(?) AND date(?)) AND tracks.removal_status = 0");
 				statement.setString(1, start);
 				statement.setString(2, end);
 				
@@ -1193,7 +1194,7 @@ public class DBManager {
 		boolean valid = true;
 		PreparedStatement statement = null;
 		try {
-			String query = "UPDATE tracks_table " + "SET album_number="
+			String query = "UPDATE tracks " + "SET album_number="
 					+ track.getAlbum_number() + ", artist='"
 					+ track.getArtist() + "', writer='" + track.getWriter()
 					+ "', track_length='" + track.getTrack_length()
@@ -1238,7 +1239,7 @@ public class DBManager {
 	public boolean deleteTrack(TrackBean track) {
 		boolean valid = true;
 		// Query to delete a track
-		String query = "DELETE From tracks_table WHERE inventory_number="
+		String query = "DELETE From tracks WHERE inventory_number="
 				+ track.getInventory_number();
 		PreparedStatement statement = null;
 
@@ -1276,7 +1277,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection
-					.prepareStatement("INSERT INTO albums_table "
+					.prepareStatement("INSERT INTO albums "
 							+ "(album_number, title, release_date, artist, label, "
 							+ "track_num, date_entered, cost_price, list_price, sale_price, "
 							+ "removal_status, genre, cover_img_name) "
@@ -1331,7 +1332,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("Select * from albums_table");
+			resultSet = statement.executeQuery("Select * from albums");
 
 			while (resultSet.next()) {
 				albums.add(new AlbumBean(resultSet.getInt(1), resultSet
@@ -1370,7 +1371,7 @@ public class DBManager {
 		if (name != null && !name.equals("")) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from albums_table where title like ?");
+				statement = connection.prepareStatement("Select * from albums where title like ?");
 				statement.setString(1, "%" + name + "%");
 				
 				//execute statement obtaining the number of inserted rows
@@ -1414,7 +1415,7 @@ public class DBManager {
 		if (id >= 0) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from albums_table where album_number = ?");
+				statement = connection.prepareStatement("Select * from albums where album_number = ?");
 				//inserting values into PreparedStatement
 				statement.setInt(1, id);
 				
@@ -1459,7 +1460,7 @@ public class DBManager {
 		if (artist != null && !artist.equals("")) {
 			try {
 				openConnection();
-				statement = connection.prepareStatement("Select * from albums_table where artist like ?");
+				statement = connection.prepareStatement("Select * from albums where artist like ?");
 				statement.setString(1, "%" + artist + "%");
 				
 				//execute statement obtaining the number of inserted rows
@@ -1501,7 +1502,7 @@ public class DBManager {
 		PreparedStatement statement = null;
 		boolean valid = true;
 		try {
-			String update = "UPDATE albums_table " + "SET title='"
+			String update = "UPDATE albums " + "SET title='"
 					+ album.getTitle() + "', artist='" + album.getArtist()
 					+ "', label='" + album.getLabel() + "'" + ", track_num="
 					+ album.getNumOfTracks() + ", cost_price="
@@ -1544,7 +1545,7 @@ public class DBManager {
 	public boolean deleteAlbum(AlbumBean album) {
 		boolean valid = true;
 		// Query to delete a album
-		String query = "DELETE From albums_table WHERE album_number="
+		String query = "DELETE From albums WHERE album_number="
 				+ album.getAlbumID();
 		PreparedStatement statement = null;
 		try {
@@ -1583,7 +1584,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection
-					.prepareStatement("INSERT INTO clients_table "
+					.prepareStatement("INSERT INTO clients "
 							+ "(client_id, title, first_name, last_name, company_name, "
 							+ "address_1, address_2, city, province, country, "
 							+ "postal_code, home_phone, cell_phone, email, password, last_search,user_status) "
@@ -1644,7 +1645,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("Select * from clients_table");
+			resultSet = statement.executeQuery("Select * from clients");
 
 			while (resultSet.next()) {
 				clients.add(new ClientBean(resultSet.getInt(1), resultSet
@@ -1690,7 +1691,7 @@ public class DBManager {
 
 		try {			
 			openConnection();
-			statement = connection.prepareStatement("select client_id, first_name, last_name, sum(total_gross_value) from invoices_table join clients_table using(client_id) "
+			statement = connection.prepareStatement("select client_id, first_name, last_name, sum(total_gross_value) from invoices join clients using(client_id) "
 					+ "where date_of_sale between date(?) AND date(?) group by client_id "
 					+ "order by sum(total_gross_value) desc");
 			statement.setString(1, start);
@@ -1729,8 +1730,8 @@ public class DBManager {
 
 		try {
 			openConnection();
-			statement = connection.prepareStatement("select album_number, count(album_number) from invoices_details_table join invoices_table using(sale_number) "
-					+ "where album_number is not null AND invoices_table.date_of_sale between date(?) AND date(?) "
+			statement = connection.prepareStatement("select album_number, count(album_number) from invoices_details join invoices using(sale_number) "
+					+ "where album_number is not null AND invoices.date_of_sale between date(?) AND date(?) "
 					+ "group by album_number order by count(album_number) desc");
 			statement.setString(1, start);
 			statement.setString(2, end);
@@ -1776,10 +1777,10 @@ public class DBManager {
 		try {			
 			openConnection();
 			statement = connection.prepareStatement("select inventory_number,title,artist,list_price,sum(idt.price_at_sale) "
-					+ "from invoices_details_table idt "
-					+ "join invoices_table using(sale_number) "
-					+ "join tracks_table using(inventory_number) "
-					+ "where invoices_table.date_of_sale between date(?) AND date(?) "
+					+ "from invoices_details idt "
+					+ "join invoices using(sale_number) "
+					+ "join tracks using(inventory_number) "
+					+ "where invoices.date_of_sale between date(?) AND date(?) "
 					+ "group by inventory_number "
 					+ "order by sum(idt.price_at_sale) desc");
 			statement.setString(1, start);
@@ -1827,7 +1828,7 @@ public class DBManager {
 		if (id > 0) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from clients_table where client_id = ?");
+				statement = connection.prepareStatement("Select * from clients where client_id = ?");
 				
 				//inserting values into PreparedStatement
 				statement.setInt(1, id);
@@ -1877,7 +1878,7 @@ public class DBManager {
 				&& !password.equals("")) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from clients_table where email =? && password = ?");
+				statement = connection.prepareStatement("Select * from clients where email =? && password = ?");
 				
 				//inserting values into PreparedStatement
 				statement.setString(1, email);
@@ -1927,9 +1928,9 @@ public class DBManager {
 				&& !end.equals("")) {
 			try {
 				openConnection();
-				statement = connection.prepareStatement("Select * from clients_table Where client_id "
-						+ "NOT IN (Select invoices_table.client_id from invoices_table, clients_table "
-						+ "where invoices_table.client_id = clients_table.client_id AND invoices_table.date_of_sale BETWEEN "
+				statement = connection.prepareStatement("Select * from clients Where client_id "
+						+ "NOT IN (Select invoices.client_id from invoices, clients "
+						+ "where invoices.client_id = clients.client_id AND invoices.date_of_sale BETWEEN "
 						+ "date(?) AND date(?))");
 				statement.setString(1, start);
 				statement.setString(2, end);
@@ -1975,7 +1976,7 @@ public class DBManager {
 		PreparedStatement statement = null;
 		boolean valid = true;
 		try {
-			String query = "UPDATE Clients_Table " + "SET title='"
+			String query = "UPDATE Clients " + "SET title='"
 					+ client.getTitle() + "', first_name='"
 					+ client.getFirstName() + "', last_name='"
 					+ client.getLastName() + "', company_name='"
@@ -2023,7 +2024,7 @@ public class DBManager {
 	public boolean deleteClient(ClientBean client) {
 		boolean valid = true;
 		// Query to delete a client
-		String query = "DELETE From clients_table WHERE client_id="
+		String query = "DELETE From clients WHERE client_id="
 				+ client.getClientID();
 		PreparedStatement statement = null;
 
@@ -2063,7 +2064,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection
-					.prepareStatement("INSERT INTO invoices_table "
+					.prepareStatement("INSERT INTO invoices "
 							+ "(sale_number, date_of_sale, client_id, total_net_value, pst, "
 							+ "gst, hst, total_gross_value,removal_status) "
 							+ "VALUES (?,?,?,?,?,?,?,?,?)");
@@ -2113,7 +2114,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("Select * from invoices_table");
+			resultSet = statement.executeQuery("Select * from invoices");
 			
 			while (resultSet.next()) {
 				invoices.add(new InvoiceBean(resultSet.getInt(1), resultSet
@@ -2151,7 +2152,7 @@ public class DBManager {
 				&& !end.equals("")) {
 			try {
 				openConnection();
-				statement = connection.prepareStatement("Select * from invoices_table where date_of_sale BETWEEN date(?) AND date(?)");
+				statement = connection.prepareStatement("Select * from invoices where date_of_sale BETWEEN date(?) AND date(?)");
 				statement.setString(1, start);
 				statement.setString(2, end);
 				
@@ -2198,7 +2199,7 @@ public class DBManager {
 				&& !end.equals("") && clientNum >= 0) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from invoices_table where client_id = ? AND date_of_sale BETWEEN "
+				statement = connection.prepareStatement("Select * from invoices where client_id = ? AND date_of_sale BETWEEN "
 						+ "date(?) AND date(?)");
 				
 				//inserting values into PreparedStatement
@@ -2246,7 +2247,7 @@ public class DBManager {
 		if (id > 0) {
 			try {
 				openConnection();
-				statement = connection.prepareStatement("Select * from invoices_table where sale_number = ?");
+				statement = connection.prepareStatement("Select * from invoices where sale_number = ?");
 				
 				//inserting values into PreparedStatement
 				statement.setInt(1, id);
@@ -2288,7 +2289,7 @@ public class DBManager {
 		PreparedStatement statement = null;
 		boolean valid = true;
 		try {
-			String query = "UPDATE Invoices_Table " + "SET date_of_sale='"
+			String query = "UPDATE Invoices " + "SET date_of_sale='"
 					+ invoice.getDate() + "' ,total_net_value="
 					+ invoice.getTotal_net_value() + ", total_gross_value="
 					+ invoice.getTotal_gross_value() + ", pst="
@@ -2327,7 +2328,7 @@ public class DBManager {
 	public boolean deleteInvoice(InvoiceBean invoice) {
 		boolean valid = true;
 		// Query to delete an invoice
-		String query = "DELETE From invoices_table WHERE sale_number="
+		String query = "DELETE From invoices WHERE sale_number="
 				+ invoice.getSale_number();
 		PreparedStatement statement = null;
 
@@ -2366,7 +2367,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection
-					.prepareStatement("INSERT INTO invoices_details_table "
+					.prepareStatement("INSERT INTO invoices_details "
 							+ "(_id, sale_number, inventory_number, album_number, tracks_in_album, price_of_album, price_at_sale,removal_status) "
 							+ " VALUES (?,?,?,?,?,?,?,?)");
 			// inserting values into PreparedStatement
@@ -2421,7 +2422,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from invoices_details_table");
+					.executeQuery("Select * from invoices_details");
 			while (resultSet.next()) {
 				invoicesDetails.add(new InvoiceDetailsBean(resultSet.getInt(1),
 						resultSet.getInt(2), resultSet.getInt(3), resultSet
@@ -2459,10 +2460,10 @@ public class DBManager {
 				&& !end.equals("") && track >= 0) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select invoices_details_table.* from invoices_details_table, invoices_table "
-						+ "where invoices_details_table.sale_number"
-						+ " = invoices_table.sale_number "
-						+ " AND invoices_details_table.inventory_number = ? AND invoices_table.date_of_sale BETWEEN"
+				statement = connection.prepareStatement("Select invoices_details.* from invoices_details, invoices "
+						+ "where invoices_details.sale_number"
+						+ " = invoices.sale_number "
+						+ " AND invoices_details.inventory_number = ? AND invoices.date_of_sale BETWEEN"
 						+ " date(?) AND date(?);");
 				
 				//inserting values into PreparedStatement
@@ -2509,7 +2510,7 @@ public class DBManager {
 		if (sale_number > 0) {
 			try {
 				openConnection();
-				statement = connection.prepareStatement("Select * from invoices_details_table where sale_number = ?");
+				statement = connection.prepareStatement("Select * from invoices_details where sale_number = ?");
 				
 				//inserting values into PreparedStatement
 				statement.setInt(1, sale_number);
@@ -2553,7 +2554,7 @@ public class DBManager {
 		if (id > 0) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from invoices_details_table where _id = ?");
+				statement = connection.prepareStatement("Select * from invoices_details where _id = ?");
 				
 				//inserting values into PreparedStatement
 				statement.setInt(1, id);
@@ -2598,9 +2599,9 @@ public class DBManager {
 				&& !end.equals("") && artist != null && !artist.equals("")) {
 			try {
 				openConnection();
-				statement = connection.prepareStatement("Select invoices_details_table.* from invoices_details_table, invoices_table, tracks_table where invoices_table.sale_number "
-						+ "= invoices_details_table.sale_number AND invoices_details_table.inventory_number = tracks_table.inventory_number "
-						+ "AND tracks_table.artist = '?' AND invoices_table.date_of_sale BETWEEN "
+				statement = connection.prepareStatement("SELECT invoices_details.* from invoices_details, invoices, tracks where invoices.sale_number "
+						+ "= invoices_details.sale_number AND invoices_details.inventory_number = tracks.inventory_number "
+						+ "AND tracks.artist = ? AND invoices.date_of_sale BETWEEN "
 						+ "date(?) AND date(?)");
 				
 				//inserting values into PreparedStatement
@@ -2645,7 +2646,7 @@ public class DBManager {
 		boolean valid = true;
 		PreparedStatement statement = null;
 		try {
-			String query = "UPDATE Invoices_Details_Table "
+			String query = "UPDATE Invoices_Details "
 					+ "SET sale_number="
 					+ idb.getSale_number()
 					+ ", inventory_number="
@@ -2687,7 +2688,7 @@ public class DBManager {
 	public boolean deleteInvoiceDetails(InvoiceDetailsBean idb) {
 		boolean valid = true;
 		// Query to delete an invoice detail
-		String query = "DELETE From invoices_details_table WHERE _id="
+		String query = "DELETE From invoices_details WHERE _id="
 				+ idb.getId();
 		PreparedStatement statement = null;
 
@@ -2727,7 +2728,7 @@ public class DBManager {
 			// create the SQL PreparedStatement.
 			openConnection();
 			statement = connection
-					.prepareStatement("INSERT INTO reviews_table "
+					.prepareStatement("INSERT INTO reviews "
 							+ "(_id, inventory_number, date_of_review, name_of_client, client_id, rating, "
 							+ "review, approval_status) "
 							+ "VALUES (?,?,?,?,?,?,?,?)");
@@ -2777,7 +2778,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("Select * from reviews_table");
+			resultSet = statement.executeQuery("Select * from reviews");
 			while (resultSet.next()) {
 				reviews.add(new ReviewBean(resultSet.getInt(1), resultSet
 						.getInt(2), resultSet.getString(3), resultSet
@@ -2812,7 +2813,7 @@ public class DBManager {
 		if (id > 0) {
 			try {
 				openConnection();
-				statement = connection.prepareStatement("Select * from reviews_table Where _id = ?");
+				statement = connection.prepareStatement("Select * from reviews Where _id = ?");
 				
 				//inserting values into PreparedStatement
 				statement.setInt(1, id);
@@ -2857,7 +2858,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from reviews_table Where approval_status = 0");
+					.executeQuery("Select * from reviews Where approval_status = 0");
 			while (resultSet.next()) {
 				reviews.add(new ReviewBean(resultSet.getInt(1), resultSet
 						.getInt(2), resultSet.getString(3), resultSet
@@ -2892,7 +2893,7 @@ public class DBManager {
 		if (id > 0) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select * from reviews_table Where approval_status > 0 AND  inventory_number = ?");
+				statement = connection.prepareStatement("Select * from reviews Where approval_status > 0 AND  inventory_number = ?");
 				
 				//inserting values into PreparedStatement
 				statement.setInt(1, id);
@@ -2934,7 +2935,7 @@ public class DBManager {
 		PreparedStatement statement = null;
 		boolean valid = true;
 		try {
-			String query = "UPDATE Reviews_Table " + "SET date_of_review='"
+			String query = "UPDATE Reviews " + "SET date_of_review='"
 					+ review.getDate() + "', name_of_client='"
 					+ review.getName_of_client() + "', rating="
 					+ review.getRating() + ", review='" + review.getReview()
@@ -2970,7 +2971,7 @@ public class DBManager {
 	 */
 	public boolean deleteReview(ReviewBean review) {
 		boolean valid = true;
-		String query = "DELETE From reviews_table WHERE _id=" + review.getId();
+		String query = "DELETE From reviews WHERE _id=" + review.getId();
 		PreparedStatement statement = null;
 
 		try {
@@ -3006,7 +3007,7 @@ public class DBManager {
 		try {
 			// create the SQL PreparedStatement.
 			openConnection();
-			statement = connection.prepareStatement("INSERT INTO ads_table "
+			statement = connection.prepareStatement("INSERT INTO ads "
 					+ "(id, link, imgPath,active) " + "VALUES (?,?,?,?)");
 			// inserting values into PreparedStatement
 			statement.setString(1, null);
@@ -3047,7 +3048,7 @@ public class DBManager {
 		try {
 			// create the SQL PreparedStatement.
 			openConnection();
-			statement = connection.prepareStatement("INSERT INTO rss_table "
+			statement = connection.prepareStatement("INSERT INTO rss "
 					+ "(id, link,active) " + "VALUES (?,?,?)");
 			// inserting values into PreparedStatement
 			statement.setString(1, null);
@@ -3087,7 +3088,7 @@ public class DBManager {
 		try {
 			// create the SQL PreparedStatement.
 			openConnection();
-			statement = connection.prepareStatement("INSERT INTO survey_table "
+			statement = connection.prepareStatement("INSERT INTO survey "
 					+ "(id, question, answer_1, answer_2, answer_3, "
 					+ "answer_4, answer_1count, answer_2count, answer_3count, "
 					+ "answer_4count,active) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
@@ -3139,7 +3140,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from ads_table where active=0");
+					.executeQuery("Select * from ads where active=0");
 			while (resultSet.next()) {
 				ads.add(new AdBean(resultSet.getInt(1), resultSet.getString(2),
 						resultSet.getString(3), resultSet.getInt(4)));
@@ -3171,7 +3172,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("Select * from rss_table where active=0");
+			resultSet = statement.executeQuery("Select * from rss where active=0");
 			while (resultSet.next()) {
 				rss.add(new RSSFeed(resultSet.getInt(1),
 						resultSet.getString(2), resultSet.getInt(3)));
@@ -3204,7 +3205,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from survey_table where active = 0");
+					.executeQuery("Select * from survey where active = 0");
 			while (resultSet.next()) {
 				survey.add(new SurveyBean(resultSet.getInt(1), resultSet
 						.getString(2), resultSet.getString(3), resultSet
@@ -3237,7 +3238,7 @@ public class DBManager {
 		PreparedStatement statement = null;
 		boolean valid = true;
 		try {
-			String query = "UPDATE ads_table " + "SET link='" + ad.getLink()
+			String query = "UPDATE ads " + "SET link='" + ad.getLink()
 					+ "', imgPath='" + ad.getImgPath() + "' " + " WHERE id="
 					+ ad.getId();
 			openConnection();
@@ -3271,7 +3272,7 @@ public class DBManager {
 		PreparedStatement statement = null;
 		boolean valid = true;
 		try {
-			String query = "UPDATE rss_table " + "SET link='" + rss.getLink()
+			String query = "UPDATE rss " + "SET link='" + rss.getLink()
 					+ "' " + " WHERE id=" + rss.getId();
 			openConnection();
 			statement = connection.prepareStatement(query);
@@ -3304,7 +3305,7 @@ public class DBManager {
 		PreparedStatement statement = null;
 		boolean valid = true;
 		try {
-			String query = "UPDATE survey_table " + "SET question='"
+			String query = "UPDATE survey " + "SET question='"
 					+ survey.getQ() + "', answer_1='" + survey.getA1() + "', "
 					+ "answer_2='" + survey.getA2() + "', answer_3='"
 					+ survey.getA3() + "', " + "answer_4='" + survey.getA4()
@@ -3342,7 +3343,7 @@ public class DBManager {
 	 * @return total of sales between indicated range.
 	 */
 	public ArrayList<String> getTotalSales(String startDate, String endDate) {
-		String query = "Select sum(total_gross_value) gross from invoices_table";
+		String query = "Select sum(total_gross_value) gross from invoices";
 		Statement statement = null;
 		ResultSet resultSet = null;
 		ArrayList<String> item = new ArrayList<String>();
@@ -3384,9 +3385,9 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection.prepareStatement("select sum(it.total_gross_value) " +
-					"from (select distinct sale_number from invoices_details_table idt join invoices_table using(sale_number) " +
-					"join clients_table using(client_id) where invoices_table.date_of_sale between date(?) AND date(?) " +
-					"AND clients_table.first_name = ?) as dt join invoices_table it using(sale_number)");
+					"from (select distinct sale_number from invoices_details idt join invoices using(sale_number) " +
+					"join clients using(client_id) where invoices.date_of_sale between date(?) AND date(?) " +
+					"AND clients.first_name = ?) as dt join invoices it using(sale_number)");
 			statement.setString(1, startDate);
 			statement.setString(2, endDate);
 			statement.setString(3, client);
@@ -3419,9 +3420,9 @@ public class DBManager {
 	 * @return - the total sales by client
 	 */
 	public double getTotalSalesByClient(int clientId) {
-		String query = "SELECT sum(invoices_details_table.price_at_sale) "
-				+ "FROM invoices_details_table join invoices_table using(sale_number) join clients_table using(client_id)"
-				+ "WHERE clients_table.client_id = ?";
+		String query = "SELECT sum(invoices_details.price_at_sale) "
+				+ "FROM invoices_details join invoices using(sale_number) join clients using(client_id)"
+				+ "WHERE clients.client_id = ?";
 		
 		double totalSales = 0.0;
 		try {
@@ -3458,9 +3459,9 @@ public class DBManager {
 	public double getTotalSalesByTrack(String trackName) {
 		double totalSales = 0.0;
 
-		String query = "SELECT sum(invoices_details_table.price_at_sale) FROM "
-				+ "invoices_details_table join invoices_table using(sale_number) join tracks_table using(inventory_number)"
-				+ "WHERE inventory_number is not null AND tracks_table.title = ?";
+		String query = "SELECT sum(invoices_details.price_at_sale) FROM "
+				+ "invoices_details join invoices using(sale_number) join tracks using(inventory_number)"
+				+ "WHERE inventory_number is not null AND tracks.title = ?";
 		
 		try {
 			openConnection();
@@ -3500,9 +3501,9 @@ public class DBManager {
 	public double getTotalSalesByAlbum(String albumName) {
 		double totalSales = 0.0;
 
-		String query = "SELECT sum(invoices_details_table.price_of_album)"
-				+ "FROM invoices_details_table join invoices_table using(sale_number) join albums_table using(album_number)"
-				+ "WHERE album_number is not null AND albums_table.title = ?";
+		String query = "SELECT sum(invoices_details.price_of_album)"
+				+ "FROM invoices_details join invoices using(sale_number) join albums using(album_number)"
+				+ "WHERE album_number is not null AND albums.title = ?";
 
 		try {
 			openConnection();
@@ -3545,7 +3546,7 @@ public class DBManager {
 		try {
 			openConnection();
 			statement = connection.prepareStatement("select sum(idt.price_at_sale) "
-					+ "from invoices_details_table idt, invoices_table it, tracks_table tt, albums_table at "
+					+ "from invoices_details idt, invoices it, tracks tt, albums at "
 					+ "where  idt.sale_number = it.sale_number AND "
 					+ "((idt.inventory_number = tt.inventory_number AND "
 					+ "idt.inventory_number IS NOT NULL) OR (idt.album_number = at.album_number AND "
@@ -3591,11 +3592,11 @@ public class DBManager {
 		ArrayList<String> item = new ArrayList<String>();
 		try {
 			openConnection();
-			statement = connection.prepareStatement("select sum(invoices_details_table.price_at_sale) from "
-					+ "invoices_details_table join invoices_table using(sale_number) join tracks_table using(inventory_number)where "
-					+ "inventory_number is not null AND invoices_table.date_of_sale between "
+			statement = connection.prepareStatement("select sum(invoices_details.price_at_sale) from "
+					+ "invoices_details join invoices using(sale_number) join tracks using(inventory_number)where "
+					+ "inventory_number is not null AND invoices.date_of_sale between "
 					+ "date(?) AND date(?) "
-					+ "AND tracks_table.title = ?");
+					+ "AND tracks.title = ?");
 			statement.setString(1, startDate);
 			statement.setString(2, endDate);
 			statement.setString(3, track);
@@ -3638,12 +3639,12 @@ public class DBManager {
 			openConnection();
 			statement = connection.prepareStatement("select sum(dt.price_of_album) from " +
 					"(select distinct sale_number, idt.price_of_album from " +
-					"invoices_details_table idt join " +
-					"invoices_table it using(sale_number) join " +
-					"albums_table a_table using(album_number) " +
+					"invoices_details idt join " +
+					"invoices it using(sale_number) join " +
+					"albums a using(album_number) " +
 					"where album_number is not null AND " +
 					"it.date_of_sale between date(?) AND date(?) AND " +
-					"a_table.title = ?) dt");
+					"a.title = ?) dt");
 			statement.setString(1, startDate);
 			statement.setString(2, endDate);
 			statement.setString(3, album);
@@ -3681,7 +3682,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from ads_table where active=1");
+					.executeQuery("Select * from ads where active=1");
 			while (resultSet.next())
 				ads.add(new AdBean(resultSet.getInt(1), resultSet.getString(2),
 						resultSet.getString(3), resultSet.getInt(4)));
@@ -3708,7 +3709,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from survey_table where active=1");
+					.executeQuery("Select * from survey where active=1");
 			if (resultSet.next())
 				survey = new SurveyBean(resultSet.getInt(1),
 						resultSet.getString(2), resultSet.getString(3),
@@ -3740,7 +3741,7 @@ public class DBManager {
 			openConnection();
 			statement = connection.createStatement();
 			resultSet = statement
-					.executeQuery("Select * from rss_table where active=1");
+					.executeQuery("Select * from rss where active=1");
 			if (resultSet.next())
 				rss = new RSSFeed(resultSet.getInt(1), resultSet.getString(2),
 						resultSet.getInt(3));
@@ -3772,7 +3773,7 @@ public class DBManager {
 		if (id > 0) {
 			try {
 				openConnection();
-				statement = connection.prepareStatement("Select * from reviews_table where approval_status > 0 AND inventory_number = ?");
+				statement = connection.prepareStatement("Select * from reviews where approval_status > 0 AND inventory_number = ?");
 				
 				//inserting values into PreparedStatement
 				statement.setInt(1, id);
@@ -3807,7 +3808,7 @@ public class DBManager {
 		PreparedStatement statement = null;
 		boolean valid = true;
 		try {
-			String query = "UPDATE ads_table SET active = 0 where id=" + id;
+			String query = "UPDATE ads SET active = 0 where id=" + id;
 			openConnection();
 			statement = connection.prepareStatement(query);
 			int records = statement.executeUpdate();
@@ -3835,7 +3836,7 @@ public class DBManager {
 		PreparedStatement statement = null;
 		boolean valid = true;
 		try {
-			String query = "UPDATE rss_table SET active = 0 where active=1";
+			String query = "UPDATE rss SET active = 0 where active=1";
 			openConnection();
 			statement = connection.prepareStatement(query);
 			int records = statement.executeUpdate();
@@ -3862,7 +3863,7 @@ public class DBManager {
 		PreparedStatement statement = null;
 		boolean valid = true;
 		try {
-			String query = "UPDATE survey_table SET active = 0 where active=1";
+			String query = "UPDATE survey SET active = 0 where active=1";
 			openConnection();
 			statement = connection.prepareStatement(query);
 			int records = statement.executeUpdate();
@@ -3893,7 +3894,7 @@ public class DBManager {
 		if (id > 0) {
 			try {				
 				openConnection();
-				statement = connection.prepareStatement("Select avg(rating) from reviews_table rt, tracks_table tt"
+				statement = connection.prepareStatement("Select avg(rating) from reviews rt, tracks tt"
 						+ " where rt.approval_status = 0 AND tt.inventory_number = rt.inventory_number "
 						+ "AND tt.inventory_number= ?");
 				

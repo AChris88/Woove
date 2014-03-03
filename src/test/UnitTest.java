@@ -159,20 +159,20 @@ private DBManager dbm = new DBManager();
 			dbm = new DBManager();
 			ArrayList<String[]> result = dbm.getTopClients("2012-01-01","2013-12-31");
 			assertTrue(result.get(0)[0].equals("2") &&
-						result.get(0)[1].equals("7.17") &&
+						result.get(0)[3].equals("7.17") &&
 						result.get(1)[0].equals("3") &&
-						result.get(1)[1].equals("5.69") &&
+						result.get(1)[3].equals("5.69") &&
 						result.get(2)[0].equals("4") &&
-						result.get(2)[1].equals("4.55"));
+						result.get(2)[3].equals("4.55"));
 		}
 		
 		public void testGetTopSellers(){
 			dbm = new DBManager();
 			ArrayList<String[]> result = dbm.getTopSellers("2012-01-01","2013-12-31");			
 			assertTrue(result.get(0)[0].equals("7") &&
-					result.get(0)[1].equals("3") &&
+					result.get(0)[4].equals("3.27") &&
 					result.get(1)[0].equals("75") &&
-					result.get(1)[1].equals("2"));
+					result.get(1)[4].equals("1.98"));
 		}
 		
 		//Tracks
